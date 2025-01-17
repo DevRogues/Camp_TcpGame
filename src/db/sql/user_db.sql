@@ -15,3 +15,13 @@ CREATE TABLE IF NOT EXISTS game_end
     score      INT       DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES user (id)
     );
+
+CREATE TABLE IF NOT EXISTS user_last_location
+(
+    id    INT AUTO_INCREMENT PRIMARY KEY,
+    user_id    VARCHAR(36) NOT NULL UNIQUE,
+    x DOUBLE DEFAULT 0,
+    y DOUBLE DEFAULT 0,
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user (id)
+    );
