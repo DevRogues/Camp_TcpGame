@@ -11,8 +11,6 @@ export const packetNames = {
     InitialPacket: 'initial.InitialPacket',
   },
   game: {
-    CreateGamePayload: 'game.CreateGamePayload',
-    JoinGamePayload: 'game.JoinGamePayload',
     LocationUpdatePayload: 'game.LocationUpdatePayload',
   },
   response: {
@@ -20,6 +18,5 @@ export const packetNames = {
   },
   gameNotification: {
     LocationUpdate: 'gameNotification.LocationUpdate',
-    Start: 'gameNotification.Start',
   },
 };

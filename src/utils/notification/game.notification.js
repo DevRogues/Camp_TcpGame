@@ -37,13 +37,3 @@ export const createLocationPacket = (users) => {
   const locationPacket = Location.encode(message).finish();
   return makeNotification(locationPacket, PACKET_TYPE.LOCATION);
 };
-
-export const gameStartNotification = (gameId, timestamp) => {
-  const protoMessages = getProtoMessages();
-  const Start = protoMessages.gameNotification.Start;
-
-  const payload = { gameId, timestamp };
-  const message = Start.create(payload);
-  const startPacket = Start.encode(message).finish();
-  return makeNotification(startPacket, PACKET_TYPE.GAME_START);
-};
