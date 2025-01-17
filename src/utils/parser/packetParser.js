@@ -5,12 +5,11 @@ import CustomError from '../error/customError.js';
 import { ErrorCodes } from '../error/errorCodes.js';
 
 export const packetParser = (data) => {
-  console.log('\n#### packetParser IN');
+  // console.log('\n#### packetParser IN');
   const protoMessages = getProtoMessages();
 
   // 공통 패킷 구조를 디코딩
   const Packet = protoMessages.common.Packet;
-  // console.log('=>(packetParser.js:10) Packet', Packet);
   /**
    * lookupType과 동일
    */
@@ -18,7 +17,7 @@ export const packetParser = (data) => {
   let packet;
   try {
     packet = Packet.decode(data);
-    console.log('## packet decode', packet);
+    // console.log('## packet decode', packet);
     /**
      * Packet {
      *   handlerId: 2,
@@ -34,8 +33,8 @@ export const packetParser = (data) => {
 
   const handlerId = packet.handlerId;
   const userId = packet.userId;
-  const clientVersion = packet.clientVersion;
-  const sequence = packet.sequence;
+  const clientVersion = packet.version;
+  // const sequence = packet.sequence;
 
   // clientVersion 검증
   if (clientVersion !== config.client.version) {
@@ -50,7 +49,7 @@ export const packetParser = (data) => {
    */
   // 핸들러 ID에 따라 적절한 payload 구조를 디코딩
   const protoTypeName = getProtoTypeNameByHandlerId(handlerId);
-  console.log('## protoTypeName', protoTypeName);
+  // console.log('## protoTypeName', protoTypeName);
   if (!protoTypeName) {
     throw new CustomError(ErrorCodes.UNKNOWN_HANDLER_ID, `알 수 없는 핸들러 ID: ${handlerId}`);
   }
@@ -69,7 +68,7 @@ export const packetParser = (data) => {
   try {
     //역질렬화
     payload = PayloadType.decode(packet.payload);
-    console.log('## payload', payload);
+    // console.log('## payload', payload);
   } catch (error) {
     throw new CustomError(ErrorCodes.PACKET_STRUCTURE_MISMATCH, '패킷 구조가 일치하지 않습니다.');
   }
@@ -100,5 +99,5 @@ export const packetParser = (data) => {
     );
   }
 
-  return { handlerId, userId, payload, sequence };
+  return { handlerId, userId, payload };
 };
