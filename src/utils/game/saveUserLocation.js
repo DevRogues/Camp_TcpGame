@@ -25,7 +25,9 @@ const saveUserLocation = async (socket) =>{
 
         // 게임 세션에 유저 정보 삭제
         const gameSession = getAllGameSessions();
-        gameSession[0].removeUser(userSession.id);
+        if(gameSession.length> 0){
+            gameSession[0].removeUser(userSession.id);
+        }
     }catch (e) {
         throw new CustomError(ErrorCodes.DATABASE_ERROR, e.message);
     }
