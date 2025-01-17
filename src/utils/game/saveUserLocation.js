@@ -5,6 +5,7 @@ import CustomError from "../error/customError.js";
 import {ErrorCodes} from "../error/errorCodes.js";
 
 const saveUserLocation = async (socket) =>{
+    try {
     // 해당 소켓으로 유저 정보 조회
     const userSession = getUserBySocket(socket);
 
@@ -12,7 +13,7 @@ const saveUserLocation = async (socket) =>{
     const userDB = await findUserLastLocationByUserId(userSession.id);
 
     // 데이터가 없으면 생성, 있으면 수정
-    try {
+
         if(!userDB) {
             await createUserLastLocation(userSession.id,userSession.x,userSession.y)
         }else{
