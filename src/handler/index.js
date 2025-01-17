@@ -2,8 +2,6 @@ import { HANDLER_IDS } from '../constants/handlerIds.js';
 import initialHandler from './user/initial.handler.js';
 import CustomError from '../utils/error/customError.js';
 import { ErrorCodes } from '../utils/error/errorCodes.js';
-import createGameHandler from './game/createGame.handler.js';
-import joinGameHandler from './game/joinGame.handler.js';
 import updateLocationHandler from './game/updateLocation.handler.js';
 
 //protoType : protoType의 message 이름
@@ -11,14 +9,6 @@ const handlers = {
   [HANDLER_IDS.INITIAL]: {
     handler: initialHandler,
     protoType: 'initial.InitialPacket',
-  },
-  [HANDLER_IDS.CREATE_GAME]: {
-    handler: createGameHandler,
-    protoType: 'game.CreateGamePayload',
-  },
-  [HANDLER_IDS.JOIN_GAME]: {
-    handler: joinGameHandler,
-    protoType: 'game.JoinGamePayload',
   },
   [HANDLER_IDS.UPDATE_LOCATION]: {
     handler: updateLocationHandler,
