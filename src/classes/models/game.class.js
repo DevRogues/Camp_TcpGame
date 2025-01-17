@@ -1,17 +1,15 @@
 import IntervalManager from '../managers/interval.manager.js';
 import {
   createLocationPacket,
-  gameStartNotification,
 } from '../../utils/notification/game.notification.js';
 
-const MAX_PLAYERS = 2;
+const MAX_PLAYERS = 4;
 
 class Game {
   constructor(id) {
     this.id = id;
     this.users = [];
     this.intervalManager = new IntervalManager();
-    this.state = 'waiting'; // 'waiting', 'inProgress'
   }
 
   addUser(user) {
@@ -21,12 +19,6 @@ class Game {
     this.users.push(user);
 
     this.intervalManager.addPlayer(user.id, user.ping.bind(user), 1000);
-    // 유저가 다 차면 3초 후 게임 시작
-    if (this.users.length === MAX_PLAYERS) {
-      setTimeout(() => {
-        this.startGame();
-      }, 3000);
-    }
   }
 
   getUser(userId) {
@@ -36,10 +28,6 @@ class Game {
   removeUser(userId) {
     this.users = this.users.filter((user) => user.id !== userId);
     this.intervalManager.removePlayer(userId);
-    // 유저가 빠져나가면 대기 상태로
-    if (this.users.length < MAX_PLAYERS) {
-      this.state = 'waiting';
-    }
   }
 
   // 레이턴시 최대 값
@@ -61,12 +49,13 @@ class Game {
     });
   }
 
-  getAllLocation() {
+  getAllLocation(userId) {
     const maxLatency = this.getMaxLatency();
+    const locationData = this.users.filter((user) => userId !== user.id).map((user) => {
 
-    const locationData = this.users.map((user) => {
-      const { x, y } = user.calculatePosition(maxLatency);
-      return { id: user.id, x, y };
+      // const { x, y } = user.calculatePosition(maxLatency);
+      // return { id: user.id, x, y };
+      return { id: user.id, x : user.x, y : user.y };
     });
     return createLocationPacket(locationData);
   }
