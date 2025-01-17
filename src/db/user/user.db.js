@@ -17,3 +17,17 @@ export const createUser = async (deviceId) => {
 export const updateUserLogin = async (id) => {
   await pools.USER_DB.query(SQL_QUERIES.UPDATE_USER_LOGIN, [id]);
 };
+
+export const createUserLastLocation = async (id,x,y) =>{
+  await pools.USER_DB.query(SQL_QUERIES.CREATE_USER_LAST_LOCATION, [id,x,y]);
+}
+
+export const updateUserLastLocation = async (id,x,y) =>{
+  await pools.USER_DB.query(SQL_QUERIES.UPDATE_USER_LAST_LOCATION, [x,y,id]);
+}
+
+export const findUserLastLocationByUserId = async (userId) => {
+  const [rows] = await pools.USER_DB.query(SQL_QUERIES.FIND_USER_LAST_LOCATION, [userId]);
+  return toCamelCase(rows[0]);
+}
+
