@@ -4,6 +4,7 @@ import { config } from '../../config/config.js';
 import { PACKET_TYPE } from '../../constants/header.js';
 
 export const createResponse = (handlerId, responseCode, data = null, userId) => {
+  // export const createResponse = (handlerId, responseCode, data = null, userId) => {
   const protoMessages = getProtoMessages();
   const Response = protoMessages.response.Response;
 
@@ -12,7 +13,6 @@ export const createResponse = (handlerId, responseCode, data = null, userId) => 
     responseCode,
     timestamp: Date.now(),
     data: data ? Buffer.from(JSON.stringify(data)) : null,
-    sequence: userId ? getNextSequence(userId) : 0,
   };
 
   //payload 버퍼
@@ -21,8 +21,14 @@ export const createResponse = (handlerId, responseCode, data = null, userId) => 
   //패킷 총길이 버퍼
   // 패킷 길이 정보를 포함한 버퍼 생성
   const packetLength = Buffer.alloc(config.packet.totalLength);
-  packetLength.writeUInt32BE(buffer.length + config.packet.typeLength, 0); // 패킷 길이에 타입 바이트 포함
+  packetLength.writeUInt32BE(
+    buffer.length + config.packet.totalLength +config.packet.typeLength,
+    0,
+  );
 
+  // 패킷 길이에 타입 바이트 포함
+
+  //62 + 1
   //패킷 타입 버퍼
   // 패킷 타입 정보를 포함한 버퍼 생성
   const packetType = Buffer.alloc(config.packet.typeLength);
