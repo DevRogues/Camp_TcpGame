@@ -5,4 +5,7 @@ package initial;
 // 최초 패킷 구조
 message InitialPacket {
   string deviceId = 1;
+  uint32 playerId = 2;
+  float  latency = 3;
+  float  speed = 4;
 }
